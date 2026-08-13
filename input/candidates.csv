@@ -1,0 +1,2 @@
+name,code,sector,note
+# (선택) 외부 스크리닝 훅 — 후보 제공만 가능, 최종 선정·비중은 Claude 자율 (CLAUDE.md §2 STEP 4)
