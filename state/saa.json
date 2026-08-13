@@ -1,0 +1,34 @@
+{
+  "date": "2026-08-13",
+  "per_value": 5.7,
+  "per_kind": "fwd",
+  "ey_pct": 17.54,
+  "bond10y_pct": 4.33,
+  "yield_gap_pp": 13.21,
+  "yield_gap_z": null,
+  "raw_equity_pct": 80.2,
+  "equity_pct": 80.2,
+  "clipped": false,
+  "extreme_per": true,
+  "trailing_calc": {
+    "trailing_per": 18.4,
+    "ey_pct": 5.43,
+    "raw_equity_pct": 55.7,
+    "clipped_equity_pct": 55.7
+  },
+  "bond_pct": 19.8,
+  "per_source": {
+    "value": 5.7,
+    "asof": "2026-08-13",
+    "source": "한국투자증권 8월 전망(글로벌이코노믹 2026-08-04 보도) 밴드 선형보간 — KOSPI 5,500↔4.6배 / 7,500↔6.3배 매핑에 8/13 종가 6,813 대입",
+    "ok": true,
+    "note": "상충 병기: ①5.3배(7/31 기준, 한투 직접 언급) ②'8배 초반'(공감신문 인용 타 분석). 채택 기준: 판단 시점 지수 레벨과 정합하는 단일 소스 내 일관 매핑(①의 최신 지수 반영치). 극단값 프로토콜 해당(<7배) — 트레일링 병기 필수"
+  },
+  "bond10y_source": {
+    "value": 4.33,
+    "asof": "2026-07-15",
+    "source": "Trading Economics / FX.co — 한은 7월 인상(2.75%) 직후 3년래 최고 수준",
+    "ok": true,
+    "note": "8월 당일치 미확보, 7월 중순 확인치 사용(보수적 시차)"
+  }
+}

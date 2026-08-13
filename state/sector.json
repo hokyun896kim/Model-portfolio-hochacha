@@ -1,0 +1,126 @@
+{
+  "date": "2026-08-13",
+  "table": [
+    {
+      "sector": "반도체/IT하드웨어",
+      "target_pct": 35.0,
+      "bm_pct": null,
+      "active_pp": null
+    },
+    {
+      "sector": "조선/기계/방산",
+      "target_pct": 12.0,
+      "bm_pct": null,
+      "active_pp": null
+    },
+    {
+      "sector": "금융",
+      "target_pct": 12.0,
+      "bm_pct": null,
+      "active_pp": null
+    },
+    {
+      "sector": "바이오/헬스케어",
+      "target_pct": 8.0,
+      "bm_pct": null,
+      "active_pp": null
+    },
+    {
+      "sector": "자동차",
+      "target_pct": 7.0,
+      "bm_pct": null,
+      "active_pp": null
+    },
+    {
+      "sector": "인터넷/플랫폼",
+      "target_pct": 6.0,
+      "bm_pct": null,
+      "active_pp": null
+    },
+    {
+      "sector": "화학/2차전지",
+      "target_pct": 5.0,
+      "bm_pct": null,
+      "active_pp": null
+    },
+    {
+      "sector": "소비재/유통",
+      "target_pct": 5.0,
+      "bm_pct": null,
+      "active_pp": null
+    },
+    {
+      "sector": "통신/기타",
+      "target_pct": 4.0,
+      "bm_pct": null,
+      "active_pp": null
+    },
+    {
+      "sector": "철강/소재",
+      "target_pct": 3.0,
+      "bm_pct": null,
+      "active_pp": null
+    },
+    {
+      "sector": "유틸리티/에너지",
+      "target_pct": 3.0,
+      "bm_pct": null,
+      "active_pp": null
+    }
+  ],
+  "violations": [],
+  "bm_available": false,
+  "rationale": {
+    "반도체/IT하드웨어": {
+      "basis": "수출 +178.8%, 두 달 연속 400억달러 — 이익 사이클 정점 미도달 판단. 단일 섹터 절대 상한(35%)까지 배분",
+      "source": "산업부 7월 수출"
+    },
+    "조선/기계/방산": {
+      "basis": "선박 수출 +46.9%, 수주 잔고·방산 파이프라인 — 금리 상승 국면에서 이익 가시성 프리미엄",
+      "source": "산업부 7월 수출"
+    },
+    "금융": {
+      "basis": "기준금리 인상 사이클 개시 — NIM 확대 수혜 + 밸류업 주주환원 지속",
+      "source": "한은 금통위 7/16"
+    },
+    "바이오/헬스케어": {
+      "basis": "바이오헬스 수출 +30.4% — 중립 비중",
+      "source": "산업부 7월 수출"
+    },
+    "자동차": {
+      "basis": "수출 품목 중 상대 모멘텀 열위, 저밸류 방어 성격만 반영해 소폭 축소",
+      "source": "산업부 7월 수출"
+    },
+    "인터넷/플랫폼": {
+      "basis": "AI 수익화 초기 — 금리 상승은 역풍이나 실적 안정성 감안 중립 이하",
+      "source": "정성 판단"
+    },
+    "화학/2차전지": {
+      "basis": "전방 수요 회복 지연 — 언더웨이트, ESS 모멘텀 대표주만 보유",
+      "source": "정성 판단"
+    },
+    "소비재/유통": {
+      "basis": "화장품 수출 +37.8% — K뷰티 모멘텀만 선별 반영",
+      "source": "산업부 7월 수출"
+    },
+    "철강/소재": {
+      "basis": "중국 공급 부담 지속 — 언더웨이트",
+      "source": "정성 판단"
+    },
+    "유틸리티/에너지": {
+      "basis": "요금 정상화 + 금리 방어 성격 — 소폭 보유",
+      "source": "정성 판단"
+    },
+    "통신/기타": {
+      "basis": "AI 데이터센터 수혜 + 배당 방어 — 소폭 보유",
+      "source": "정성 판단"
+    }
+  },
+  "bm_source": {
+    "value": null,
+    "asof": "N/A",
+    "source": "N/A",
+    "ok": false,
+    "note": "pykrx 섹터 시총 실패, 수기 입력 없음"
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "date": "2026-08-13",
+  "kind": "initial",
+  "trades": [
+    {
+      "code": "005930",
+      "from_pct": 0.0,
+      "to_pct": 10.0,
+      "side": "BUY"
+    },
+    {
+      "code": "000660",
+      "from_pct": 0.0,
+      "to_pct": 10.0,
+      "side": "BUY"
+    },
+    {
+      "code": "042700",
+      "from_pct": 0.0,
+      "to_pct": 4.1,
+      "side": "BUY"
+    },
+    {
+      "code": "009150",
+      "from_pct": 0.0,
+      "to_pct": 4.0,
+      "side": "BUY"
+    },
+    {
+      "code": "105560",
+      "from_pct": 0.0,
+      "to_pct": 5.0,
+      "side": "BUY"
+    },
+    {
+      "code": "055550",
+      "from_pct": 0.0,
+      "to_pct": 4.6,
+      "side": "BUY"
+    },
+    {
+      "code": "012450",
+      "from_pct": 0.0,
+      "to_pct": 3.6,
+      "side": "BUY"
+    },
+    {
+      "code": "329180",
+      "from_pct": 0.0,
+      "to_pct": 3.0,
+      "side": "BUY"
+    },
+    {
+      "code": "034020",
+      "from_pct": 0.0,
+      "to_pct": 3.0,
+      "side": "BUY"
+    },
+    {
+      "code": "207940",
+      "from_pct": 0.0,
+      "to_pct": 3.4,
+      "side": "BUY"
+    },
+    {
+      "code": "068270",
+      "from_pct": 0.0,
+      "to_pct": 3.0,
+      "side": "BUY"
+    },
+    {
+      "code": "005380",
+      "from_pct": 0.0,
+      "to_pct": 3.0,
+      "side": "BUY"
+    },
+    {
+      "code": "000270",
+      "from_pct": 0.0,
+      "to_pct": 2.6,
+      "side": "BUY"
+    },
+    {
+      "code": "035420",
+      "from_pct": 0.0,
+      "to_pct": 2.8,
+      "side": "BUY"
+    },
+    {
+      "code": "259960",
+      "from_pct": 0.0,
+      "to_pct": 2.0,
+      "side": "BUY"
+    },
+    {
+      "code": "373220",
+      "from_pct": 0.0,
+      "to_pct": 4.0,
+      "side": "BUY"
+    },
+    {
+      "code": "090430",
+      "from_pct": 0.0,
+      "to_pct": 4.0,
+      "side": "BUY"
+    },
+    {
+      "code": "005490",
+      "from_pct": 0.0,
+      "to_pct": 2.4,
+      "side": "BUY"
+    },
+    {
+      "code": "015760",
+      "from_pct": 0.0,
+      "to_pct": 2.4,
+      "side": "BUY"
+    },
+    {
+      "code": "030200",
+      "from_pct": 0.0,
+      "to_pct": 3.2,
+      "side": "BUY"
+    },
+    {
+      "code": "148070",
+      "from_pct": 0.0,
+      "to_pct": 19.8,
+      "side": "BUY"
+    }
+  ],
+  "execution_basis": "2026-08-14 시가 (평가일 익영업일)",
+  "roundtrip_cost_pct": 0.3,
+  "params_hash": "5828313af1bc"
+}

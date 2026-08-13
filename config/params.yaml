@@ -1,0 +1,50 @@
+# K-MODEL PORTFOLIO 배틀판 — 모든 숫자의 유일한 서식지 (CLAUDE.md HARD 7)
+# 변경은 CHANGELOG.md 기록 동반 필수.
+version: "0.4.1"
+
+schedule:
+  eval_day: FRI              # 주간 평가일: 금요일 장마감 후
+
+saa:
+  equity_min_pct: 40         # 산출 주식비중 클리핑 하한
+  equity_max_pct: 85         # 산출 주식비중 클리핑 상한
+  yieldgap_z_window_years: 5
+  fwd_per_extreme_low: 7     # 극단값 프로토콜 하한
+  fwd_per_extreme_high: 16   # 극단값 프로토콜 상한
+  eps_revision_check_days: 30
+  bond_mode: full            # full(10년물 고정) / regime_switch
+  bond_etf_ticker: "148070"
+  bond_etf_name: KOSEF 국고채10년
+  bond_etf_short_ticker: "114260"
+  bond_etf_short_name: KODEX 국고채3년
+  bond_duration_years: 7.8   # 10년물 ETF 실효듀레이션 근사 — 운용사 공시로 갱신할 것
+
+taa:
+  tilt_cap_pp: 5.0           # 총 틸트 하드캡 ±%p
+  fx_trend_window_days: 20
+  foreign_flow_window_days: 20
+  scorecard_mapping:         # 스코어 합계 구간 → 틸트 %p
+    - {min: -5, max: -3, tilt_pp: -5.0}
+    - {min: -2, max: -1, tilt_pp: -2.5}
+    - {min: 0,  max: 0,  tilt_pp: 0.0}
+    - {min: 1,  max: 2,  tilt_pp: 2.5}
+    - {min: 3,  max: 5,  tilt_pp: 5.0}
+  override_min_reason_lines: 3
+
+sector:
+  active_cap_pp: 7.0         # 섹터당 액티브 편차 한도 ±%p
+  single_sector_abs_max_pct: 35.0
+
+screen:
+  universe: KOSPI200+KOSDAQ150   # TDY 범위 확인 전 기본값
+  min_names: 10
+  max_names: 20
+  stock_max_pct: 10.0        # 종목당 상한 (포트폴리오 전체 기준)
+  stock_min_pct: 2.0         # 최소 편입
+  top5_max_pct: 45.0         # 상위 5종목 합
+  liquidity_min_turnover_krw: 5000000000   # 20일 평균 거래대금 ≥ 50억
+  liquidity_window_days: 20
+
+rebalance:
+  band_pp: 2.0               # 목표비중 ± 밴드
+  roundtrip_cost_pct: 0.3    # 왕복 거래비용

@@ -1,0 +1,46 @@
+{
+  "date": "2026-08-13",
+  "scorecard": {
+    "exports_yoy": {
+      "score": 1,
+      "basis": "7월 수출 +62.8% YoY(989억달러, 역대 2위), 반도체 +178.8% — 명백한 확장",
+      "source": "산업통상자원부 7월 수출입 동향(2026-08-01 발표)"
+    },
+    "usdkrw_trend": {
+      "score": 1,
+      "basis": "7월말 ~1,440 → 8/13 1,412원 — 20일 원화 강세 추세(외인 자금 유입 우호)",
+      "source": "Investing.com/Trading Economics"
+    },
+    "foreign_flow_20d": {
+      "score": 0,
+      "basis": "5월 -2.48조 → 6월 +1조 → 8월 초 매도 후 8/10~13 반도체 대량 매수 — 방향 혼조, 20일 정밀치 미확보",
+      "source": "INDEXerGO·언론 보도 종합"
+    },
+    "curve_3_10": {
+      "score": 0,
+      "basis": "10Y 4.33%(3년래 최고) 확보했으나 3Y 최신치 미확보 — 스프레드 판정 불가로 중립 처리",
+      "source": "Trading Economics/FX.co (10Y), 3Y N/A"
+    },
+    "bok_stance": {
+      "score": -1,
+      "basis": "7/16 기준금리 2.50→2.75% 인상, 2023년 1월 이후 첫 인상 — 긴축 사이클 개시(CPI +3.2%)",
+      "source": "한국은행 금통위"
+    }
+  },
+  "score_total": 1,
+  "tilt_scorecard_pp": 2.5,
+  "tilt_final_pp": 0.0,
+  "override_applied": true,
+  "override_reasons": [
+    "Fwd PER 5.7배는 반도체發 폭발적 EPS 추정(트레일링 18.4배와 3배 이상 괴리)에 의존 — 추정 하향 시 Yield Gap 신호가 급격히 약화될 수 있어, SAA가 이미 80% 수준인 상태에서 스코어카드의 +2.5%p 추가 확대는 리스크 비대칭.",
+    "한은 긴축 사이클 개시 + 국고10년 4.33%로 3년래 최고 — 할인율 상승 국면에서 고밸류에이션 성장주 중심 시장의 멀티플 압축 리스크가 커지는 중.",
+    "8월 초 급락(rout) 후 4거래일 연속 급등(8/13 +3%대)의 고변동성 국면 — 추세 확신 부족 구간에서는 모형 기본값(SAA) 유지가 규율에 부합한다고 판단, 스코어카드 +2.5%p를 0%p로 하향 조정."
+  ],
+  "discretion_delta_pp": -2.5,
+  "equity_pct": 80.2,
+  "bond_pct": 19.8,
+  "bond_sens": {
+    "duration_years": 7.8,
+    "pnl_pct_per_100bp": 1.54
+  }
+}

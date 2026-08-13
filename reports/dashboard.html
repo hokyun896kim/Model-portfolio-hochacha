@@ -1,0 +1,170 @@
+<title>K-포트 배틀 대시보드</title>
+<style>
+:root {
+  --paper: #FAF9F7; --card: #FFFFFF; --ink: #201D1E; --muted: #6E6668;
+  --line: #E5E0DE; --equity: #C4363C; --bond: #3A5FA8;
+  --equity-soft: rgba(196,54,60,.09); --bond-soft: rgba(58,95,168,.09);
+  --chip-zero: #EDEAE8; --warn-bg: #FBF3E3; --warn-ink: #7A5A18;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1C1A1B; --card: #252223; --ink: #ECE7E5; --muted: #A39B9D;
+    --line: #3A3536; --equity: #D96A6E; --bond: #6E93D6;
+    --equity-soft: rgba(217,106,110,.14); --bond-soft: rgba(110,147,214,.14);
+    --chip-zero: #363132; --warn-bg: #3A311C; --warn-ink: #E8C87A;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1C1A1B; --card: #252223; --ink: #ECE7E5; --muted: #A39B9D;
+  --line: #3A3536; --equity: #D96A6E; --bond: #6E93D6;
+  --equity-soft: rgba(217,106,110,.14); --bond-soft: rgba(110,147,214,.14);
+  --chip-zero: #363132; --warn-bg: #3A311C; --warn-ink: #E8C87A;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink); margin: 0;
+  font-family: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  line-height: 1.55; font-size: 15px;
+}
+main { max-width: 960px; margin: 0 auto; padding: 32px 20px 64px; }
+header.masthead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px;
+  border-bottom: 2px solid var(--ink); padding-bottom: 14px; margin-bottom: 18px; }
+.masthead h1 { font-size: 24px; font-weight: 800; letter-spacing: -.02em; margin: 0; }
+.masthead .vs { color: var(--muted); font-weight: 600; font-size: 13px;
+  text-transform: uppercase; letter-spacing: .08em; }
+.masthead .asof { margin-left: auto; color: var(--muted); font-size: 13px;
+  font-variant-numeric: tabular-nums; }
+.banner { background: var(--warn-bg); color: var(--warn-ink); border-radius: 6px;
+  padding: 8px 12px; font-size: 13px; margin: 6px 0; }
+section { margin-top: 28px; }
+h2 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em;
+  color: var(--muted); margin: 0 0 10px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.tile { background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 16px; }
+.tile .k { font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.tile .v { font-size: 26px; font-weight: 800; letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums; margin-top: 2px; }
+.tile .s { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.tile .v .unit { font-size: 15px; font-weight: 600; color: var(--muted); }
+.allocbar { display: flex; gap: 2px; height: 40px; border-radius: 6px; overflow: hidden; }
+.allocbar > div { display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
+.alloc-eq { background: var(--equity); }
+.alloc-bd { background: var(--bond); }
+.legend { display: flex; gap: 18px; margin-top: 8px; font-size: 13px; color: var(--muted); }
+.legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px;
+  margin-right: 6px; vertical-align: baseline; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+.scorerow { display: flex; align-items: center; gap: 10px; padding: 8px 0;
+  border-bottom: 1px solid var(--line); font-size: 13.5px; }
+.scorerow:last-child { border-bottom: 0; }
+.scorerow .chip { flex: 0 0 44px; text-align: center; border-radius: 999px;
+  font-weight: 800; font-size: 13px; padding: 3px 0; font-variant-numeric: tabular-nums; }
+.chip.pos { background: var(--equity-soft); color: var(--equity); }
+.chip.neg { background: var(--bond-soft); color: var(--bond); }
+.chip.zer { background: var(--chip-zero); color: var(--muted); }
+.scorerow .why { color: var(--muted); font-size: 12.5px; }
+.sectorrow { display: grid; grid-template-columns: 128px 1fr 52px; align-items: center;
+  gap: 10px; padding: 5px 0; font-size: 13.5px; }
+.sectorrow .bar { height: 14px; border-radius: 0 4px 4px 0; background: var(--equity);
+  opacity: .78; min-width: 2px; }
+.sectorrow:hover .bar { opacity: 1; }
+.sectorrow .val { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em;
+  color: var(--muted); font-weight: 700; padding: 8px 10px; border-bottom: 1px solid var(--ink); }
+td { padding: 7px 10px; border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums; }
+td.num { text-align: right; }
+.wbar { display: inline-block; height: 10px; border-radius: 0 3px 3px 0;
+  background: var(--equity); opacity: .78; vertical-align: middle; }
+tr.bondrow .wbar { background: var(--bond); }
+details.card { margin: 0; }
+details.card summary { cursor: pointer; list-style: none; color: var(--ink); font-weight: 600; }
+details.card summary::after { content: " ▾"; color: var(--muted); font-size: 11px; }
+details.card[open] summary::after { content: " ▴"; }
+details.card .cardbody { margin: 8px 0 4px; padding: 10px 12px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 6px; font-size: 12.5px; color: var(--muted); }
+details.card .cardbody b { color: var(--ink); }
+.battle { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.battle .tile .v { font-size: 22px; }
+.note { font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+footer { margin-top: 40px; border-top: 1px solid var(--line); padding-top: 14px;
+  font-size: 12px; color: var(--muted); }
+.reasons { margin: 6px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--muted); }
+.reasons li { margin: 3px 0; }
+</style>
+<main>
+<header class="masthead"><h1>K-MODEL PORTFOLIO 배틀판</h1><span class="vs">CLD vs TDY</span><span class="asof">asof 2026-08-13 · params 5828313af1bc</span></header>
+<div class="banner">⚠️ Yield Gap z-score N/A — 5년 시계열 이력 축적 중</div>
+<div class="banner">⚠️ KOSPI 섹터 BM 시총 비중 N/A — 섹터 액티브 한도·액티브 셰어 검증 불가 (수기 확보 필요)</div>
+<div class="banner">⚠️ 극단값 프로토콜 발동 — Fwd PER 5.7배. 트레일링 18.4배 기준 병기 산출: 주식 55.7%</div>
+<section><div class="tiles">
+<div class="tile"><div class="k">최종 배분 (TAA)</div><div class="v">80.2<span class="unit">%</span> <span class="unit">주식</span></div><div class="s">국고채 ETF 19.8% · 듀레이션 7.8년</div></div>
+<div class="tile"><div class="k">Yield Gap (Fwd PER 5.7배)</div><div class="v">+13.21<span class="unit">%p</span></div><div class="s">EY 17.54% − 국고10Y 4.33% → SAA 80.2%</div></div>
+<div class="tile"><div class="k">스코어카드</div><div class="v">+1<span class="unit">점</span></div><div class="s">매핑 틸트 +2.5%p</div></div>
+<div class="tile"><div class="k">재량 오버라이드</div><div class="v">+0.0<span class="unit">%p</span></div><div class="s">스코어카드 대비 -2.5%p — 재량 기여도로 추적</div></div>
+</div></section>
+<section><h2>자산배분</h2><div class="allocbar">
+<div class="alloc-eq" style="width:80.2%" title="주식 80.2%">주식 80.2%</div>
+<div class="alloc-bd" style="width:19.8%" title="국고채 ETF 19.8%">19.8%</div>
+</div><div class="legend"><span><span class="sw" style="background:var(--equity)"></span>주식 (20종목)</span><span><span class="sw" style="background:var(--bond)"></span>KOSEF 국고채10년 — ±100bp ≈ ∓1.54% (포트 기준)</span></div></section>
+<section class="cols"><div><h2>TAA 스코어카드</h2>
+<div class="scorerow"><span class="chip pos">+1</span><div><b>수출 YoY</b> <span class="why">7월 수출 +62.8% YoY(989억달러, 역대 2위), 반도체 +178.8% — 명백한 확장</span></div></div>
+<div class="scorerow"><span class="chip pos">+1</span><div><b>원/달러 추세</b> <span class="why">7월말 ~1,440 → 8/13 1,412원 — 20일 원화 강세 추세(외인 자금 유입 우호)</span></div></div>
+<div class="scorerow"><span class="chip zer">+0</span><div><b>외국인 수급</b> <span class="why">5월 -2.48조 → 6월 +1조 → 8월 초 매도 후 8/10~13 반도체 대량 매수 — 방향 혼조, 20일 정밀치 미확보</span></div></div>
+<div class="scorerow"><span class="chip zer">+0</span><div><b>커브 3-10년</b> <span class="why">10Y 4.33%(3년래 최고) 확보했으나 3Y 최신치 미확보 — 스프레드 판정 불가로 중립 처리</span></div></div>
+<div class="scorerow"><span class="chip neg">-1</span><div><b>한은 스탠스</b> <span class="why">7/16 기준금리 2.50→2.75% 인상, 2023년 1월 이후 첫 인상 — 긴축 사이클 개시(CPI +3.2%)</span></div></div>
+<div class="note"><b>재량 사유</b><ul class="reasons">
+<li>Fwd PER 5.7배는 반도체發 폭발적 EPS 추정(트레일링 18.4배와 3배 이상 괴리)에 의존 — 추정 하향 시 Yield Gap 신호가 급격히 약화될 수 있어, SAA가 이미 80% 수준인 상태에서 스코어카드의 +2.5%p 추가 확대는 리스크 비대칭.</li>
+<li>한은 긴축 사이클 개시 + 국고10년 4.33%로 3년래 최고 — 할인율 상승 국면에서 고밸류에이션 성장주 중심 시장의 멀티플 압축 리스크가 커지는 중.</li>
+<li>8월 초 급락(rout) 후 4거래일 연속 급등(8/13 +3%대)의 고변동성 국면 — 추세 확신 부족 구간에서는 모형 기본값(SAA) 유지가 규율에 부합한다고 판단, 스코어카드 +2.5%p를 0%p로 하향 조정.</li>
+</ul></div>
+</div><div><h2>섹터 목표 (주식 내)</h2>
+<div class="sectorrow" title="수출 +178.8%, 두 달 연속 400억달러 — 이익 사이클 정점 미도달 판단. 단일 섹터 절대 상한(35%)까지 배분"><span>반도체/IT하드웨어</span><div class="bar" style="width:100%"></div><span class="val">35.0%</span></div>
+<div class="sectorrow" title="선박 수출 +46.9%, 수주 잔고·방산 파이프라인 — 금리 상승 국면에서 이익 가시성 프리미엄"><span>조선/기계/방산</span><div class="bar" style="width:34%"></div><span class="val">12.0%</span></div>
+<div class="sectorrow" title="기준금리 인상 사이클 개시 — NIM 확대 수혜 + 밸류업 주주환원 지속"><span>금융</span><div class="bar" style="width:34%"></div><span class="val">12.0%</span></div>
+<div class="sectorrow" title="바이오헬스 수출 +30.4% — 중립 비중"><span>바이오/헬스케어</span><div class="bar" style="width:23%"></div><span class="val">8.0%</span></div>
+<div class="sectorrow" title="수출 품목 중 상대 모멘텀 열위, 저밸류 방어 성격만 반영해 소폭 축소"><span>자동차</span><div class="bar" style="width:20%"></div><span class="val">7.0%</span></div>
+<div class="sectorrow" title="AI 수익화 초기 — 금리 상승은 역풍이나 실적 안정성 감안 중립 이하"><span>인터넷/플랫폼</span><div class="bar" style="width:17%"></div><span class="val">6.0%</span></div>
+<div class="sectorrow" title="전방 수요 회복 지연 — 언더웨이트, ESS 모멘텀 대표주만 보유"><span>화학/2차전지</span><div class="bar" style="width:14%"></div><span class="val">5.0%</span></div>
+<div class="sectorrow" title="화장품 수출 +37.8% — K뷰티 모멘텀만 선별 반영"><span>소비재/유통</span><div class="bar" style="width:14%"></div><span class="val">5.0%</span></div>
+<div class="sectorrow" title="AI 데이터센터 수혜 + 배당 방어 — 소폭 보유"><span>통신/기타</span><div class="bar" style="width:11%"></div><span class="val">4.0%</span></div>
+<div class="sectorrow" title="중국 공급 부담 지속 — 언더웨이트"><span>철강/소재</span><div class="bar" style="width:9%"></div><span class="val">3.0%</span></div>
+<div class="sectorrow" title="요금 정상화 + 금리 방어 성격 — 소폭 보유"><span>유틸리티/에너지</span><div class="bar" style="width:9%"></div><span class="val">3.0%</span></div>
+</div></section>
+<section><h2>보유 종목 — 20종목 · 상위5 33.7%</h2><div class="tablewrap"><table>
+<tr><th>종목 (선정 카드)</th><th>코드</th><th>섹터</th><th style='text-align:right'>비중</th><th></th></tr>
+<tr><td><details class="card"><summary>삼성전자</summary><div class="cardbody"><ul class="reasons"><li>HBM4 경쟁력 회복과 파운드리 가동률 개선으로 이익 레버리지 극대화 국면</li><li>7월 반도체 수출 +178.8%의 최대 절대 수혜자</li><li>종목당 상한(10%)까지 배분 — 시장 주도주 언더웨이트 리스크 회피</li></ul><b>반대논리</b> HBM 경쟁 지위가 SK하이닉스 대비 여전히 열위면 멀티플 디스카운트 지속<br><b>무효화</b> 분기 HBM 매출 점유율 하락 반전 또는 파운드리 대형 고객 이탈<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>005930</td><td>반도체/IT하드웨어</td><td class="num">10.0%</td><td style="width:120px"><span class="wbar" style="width:100px" title="삼성전자 10.0%"></span></td></tr>
+<tr><td><details class="card"><summary>SK하이닉스</summary><div class="cardbody"><ul class="reasons"><li>HBM 점유율 1위 — AI 메모리 사이클의 최대 순수 수혜</li><li>두 달 연속 반도체 수출 400억달러의 주력</li><li>이익 추정 상향 사이클 지속 중 — 상한(10%)까지 배분</li></ul><b>반대논리</b> HBM 공급 과잉 전환 시 급격한 추정 하향 리스크<br><b>무효화</b> HBM 계약 가격 하락 반전 확인<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>000660</td><td>반도체/IT하드웨어</td><td class="num">10.0%</td><td style="width:120px"><span class="wbar" style="width:100px" title="SK하이닉스 10.0%"></span></td></tr>
+<tr><td><details class="card"><summary>KB금융</summary><div class="cardbody"><ul class="reasons"><li>기준금리 인상 사이클 — NIM 확대 직접 수혜</li><li>업계 최상위 주주환원율(밸류업 대표)</li><li>금리 상승 국면의 포트폴리오 헤지 성격</li></ul><b>반대논리</b> 가계대출 규제 강화 시 성장 제한<br><b>무효화</b> 분기 NIM 하락 반전 + 주주환원 축소<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>105560</td><td>금융</td><td class="num">5.0%</td><td style="width:120px"><span class="wbar" style="width:50px" title="KB금융 5.0%"></span></td></tr>
+<tr><td><details class="card"><summary>신한지주</summary><div class="cardbody"><ul class="reasons"><li>자사주 소각 지속 — 주당가치 성장</li><li>금리 인상 수혜 + 안정적 자본비율</li><li>금융 섹터 분산(은행지주 2개사) 목적</li></ul><b>반대논리</b> 비은행 부문 실적 변동성<br><b>무효화</b> 자사주 소각 프로그램 중단<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>055550</td><td>금융</td><td class="num">4.6%</td><td style="width:120px"><span class="wbar" style="width:46px" title="신한지주 4.6%"></span></td></tr>
+<tr><td><details class="card"><summary>한미반도체</summary><div class="cardbody"><ul class="reasons"><li>HBM TC본더 장비 — 메모리 증설 사이클의 직접 수혜</li><li>고객사 HBM 캐파 확장 지속</li><li>장비주는 사이클 후반 레버리지가 큼 — 소량 편입</li></ul><b>반대논리</b> 밸류에이션 부담 + 경쟁 장비사 진입<br><b>무효화</b> 주요 고객 발주 공백 분기 확인<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>042700</td><td>반도체/IT하드웨어</td><td class="num">4.1%</td><td style="width:120px"><span class="wbar" style="width:41px" title="한미반도체 4.1%"></span></td></tr>
+<tr><td><details class="card"><summary>삼성전기</summary><div class="cardbody"><ul class="reasons"><li>AI 서버용 FC-BGA 기판 수요 확대</li><li>MLCC 업황 회복 + IT 세트 수요 개선</li><li>반도체 섹터 내 밸류에이션 보완재 역할</li></ul><b>반대논리</b> 중국 세트 수요 둔화 시 MLCC 회복 지연<br><b>무효화</b> FC-BGA 증설 가동률 저하 확인<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>009150</td><td>반도체/IT하드웨어</td><td class="num">4.0%</td><td style="width:120px"><span class="wbar" style="width:40px" title="삼성전기 4.0%"></span></td></tr>
+<tr><td><details class="card"><summary>LG에너지솔루션</summary><div class="cardbody"><ul class="reasons"><li>ESS·북미 물량으로 바닥 통과 국면</li><li>AI 데이터센터 ESS 수요의 신성장 축</li><li>섹터 언더웨이트 내 대표주 1개만 보유</li></ul><b>반대논리</b> EV 수요 회복 지연 장기화<br><b>무효화</b> 북미 공장 가동률 추가 하향<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>373220</td><td>화학/2차전지</td><td class="num">4.0%</td><td style="width:120px"><span class="wbar" style="width:40px" title="LG에너지솔루션 4.0%"></span></td></tr>
+<tr><td><details class="card"><summary>아모레퍼시픽</summary><div class="cardbody"><ul class="reasons"><li>화장품 수출 +37.8% — K뷰티 글로벌 확산 모멘텀</li><li>북미·유럽 매출 비중 확대로 중국 의존 탈피</li><li>내수 부진과 무관한 수출주 성격</li></ul><b>반대논리</b> 브랜드 경쟁 심화로 마진 압박 가능<br><b>무효화</b> 비중국 수출 성장률 한 자릿수 둔화<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>090430</td><td>소비재/유통</td><td class="num">4.0%</td><td style="width:120px"><span class="wbar" style="width:40px" title="아모레퍼시픽 4.0%"></span></td></tr>
+<tr><td><details class="card"><summary>한화에어로스페이스</summary><div class="cardbody"><ul class="reasons"><li>방산 수출 파이프라인 확대 — 수주 잔고 사상 최대</li><li>지정학 리스크 구조화로 유럽·중동 수요 지속</li><li>이익 가시성이 높아 금리 상승 국면에 상대 우위</li></ul><b>반대논리</b> 수주 인도 지연 시 분기 실적 변동<br><b>무효화</b> 대형 수출 계약 취소·연기 발생<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>012450</td><td>조선/기계/방산</td><td class="num">3.6%</td><td style="width:120px"><span class="wbar" style="width:36px" title="한화에어로스페이스 3.6%"></span></td></tr>
+<tr><td><details class="card"><summary>삼성바이오로직스</summary><div class="cardbody"><ul class="reasons"><li>CDMO 수주 확대 + 5공장 가동 — 캐파 기반 성장 가시성</li><li>바이오헬스 수출 +30.4% 모멘텀</li><li>환율 수혜(달러 매출) 방어 성격</li></ul><b>반대논리</b> 바이오텍 자금 조달 위축 시 수주 둔화<br><b>무효화</b> 신규 수주 공백 2개 분기 연속<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>207940</td><td>바이오/헬스케어</td><td class="num">3.4%</td><td style="width:120px"><span class="wbar" style="width:34px" title="삼성바이오로직스 3.4%"></span></td></tr>
+<tr><td><details class="card"><summary>KT</summary><div class="cardbody"><ul class="reasons"><li>AI 데이터센터·클라우드 성장 축</li><li>배당 + 자사주 — 금리 상승 국면 방어</li><li>통신 본업의 현금흐름 안정성</li></ul><b>반대논리</b> 통신 요금 인하 압력<br><b>무효화</b> DC/클라우드 매출 성장률 한 자릿수 하락<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>030200</td><td>통신/기타</td><td class="num">3.2%</td><td style="width:120px"><span class="wbar" style="width:32px" title="KT 3.2%"></span></td></tr>
+<tr><td><details class="card"><summary>HD현대중공업</summary><div class="cardbody"><ul class="reasons"><li>선박 수출 +46.9% — 조선 업사이클 확인</li><li>선가 상승 + 고선가 수주 잔고의 매출 인식 본격화</li><li>미 함정 MRO 등 특수선 옵션</li></ul><b>반대논리</b> 후판 가격 상승 시 마진 압박<br><b>무효화</b> 신조선가 지수 하락 전환<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>329180</td><td>조선/기계/방산</td><td class="num">3.0%</td><td style="width:120px"><span class="wbar" style="width:30px" title="HD현대중공업 3.0%"></span></td></tr>
+<tr><td><details class="card"><summary>두산에너빌리티</summary><div class="cardbody"><ul class="reasons"><li>원전·SMR 수주 모멘텀 — AI 전력 수요의 구조적 수혜</li><li>가스터빈 국산화로 발전 설비 사이클 참여</li><li>데이터센터 전력 인프라 테마의 실적 연결 고리</li></ul><b>반대논리</b> 수주-매출 인식 시차가 길어 밸류에이션 선반영 부담<br><b>무효화</b> 대형 원전 프로젝트 수주 실패 확정<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>034020</td><td>조선/기계/방산</td><td class="num">3.0%</td><td style="width:120px"><span class="wbar" style="width:30px" title="두산에너빌리티 3.0%"></span></td></tr>
+<tr><td><details class="card"><summary>셀트리온</summary><div class="cardbody"><ul class="reasons"><li>바이오시밀러 신제품 출시 사이클 진행</li><li>미국 직판 체제 정착으로 마진 개선</li><li>짐펜트라 등 신약성 품목의 성장 옵션</li></ul><b>반대논리</b> 시밀러 가격 경쟁 심화<br><b>무효화</b> 주력 품목 미국 점유율 하락 반전<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>068270</td><td>바이오/헬스케어</td><td class="num">3.0%</td><td style="width:120px"><span class="wbar" style="width:30px" title="셀트리온 3.0%"></span></td></tr>
+<tr><td><details class="card"><summary>현대차</summary><div class="cardbody"><ul class="reasons"><li>하이브리드 믹스 개선 — 대당 마진 방어</li><li>주주환원 확대 + 저밸류에이션 방어 성격</li><li>인도 등 신흥 시장 성장 축</li></ul><b>반대논리</b> 미 관세 환경·전기차 전환 비용 부담<br><b>무효화</b> 북미 판매 인센티브 급증 확인<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>005380</td><td>자동차</td><td class="num">3.0%</td><td style="width:120px"><span class="wbar" style="width:30px" title="현대차 3.0%"></span></td></tr>
+<tr><td><details class="card"><summary>NAVER</summary><div class="cardbody"><ul class="reasons"><li>AI 서비스 수익화 초기 — 검색·커머스 결합 레버리지</li><li>커머스·핀테크 안정 성장</li><li>국내 AI 소버린 수요의 플랫폼 수혜</li></ul><b>반대논리</b> 금리 상승은 성장주 멀티플에 역풍<br><b>무효화</b> 검색 점유율 구조적 하락 확인<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>035420</td><td>인터넷/플랫폼</td><td class="num">2.8%</td><td style="width:120px"><span class="wbar" style="width:28px" title="NAVER 2.8%"></span></td></tr>
+<tr><td><details class="card"><summary>기아</summary><div class="cardbody"><ul class="reasons"><li>고수익 RV 중심 믹스 — 업계 최상위 마진</li><li>주주환원 정책 일관성</li><li>현대차와 분산 보유로 자동차 섹터 커버</li></ul><b>반대논리</b> 관세·환율 변동에 이익 민감<br><b>무효화</b> 분기 영업이익률 8% 하회<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>000270</td><td>자동차</td><td class="num">2.6%</td><td style="width:120px"><span class="wbar" style="width:26px" title="기아 2.6%"></span></td></tr>
+<tr><td><details class="card"><summary>POSCO홀딩스</summary><div class="cardbody"><ul class="reasons"><li>철강 시황 바닥권 — 다운사이드 제한</li><li>리튬 밸류체인 옵션 가치</li><li>언더웨이트 섹터의 최소 커버</li></ul><b>반대논리</b> 중국 공급 과잉 지속<br><b>무효화</b> 중국 철강 수출 증가 재확인 + 리튬 프로젝트 중단<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>005490</td><td>철강/소재</td><td class="num">2.4%</td><td style="width:120px"><span class="wbar" style="width:24px" title="POSCO홀딩스 2.4%"></span></td></tr>
+<tr><td><details class="card"><summary>한국전력</summary><div class="cardbody"><ul class="reasons"><li>요금 정상화 — 실적 턴어라운드 진행</li><li>AI 데이터센터 전력 수요 증가의 구조적 수혜</li><li>고변동성 국면의 방어 성격</li></ul><b>반대논리</b> 정책 리스크(요금 동결 회귀)<br><b>무효화</b> 연료비 조정 단가 동결 2분기 연속<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>015760</td><td>유틸리티/에너지</td><td class="num">2.4%</td><td style="width:120px"><span class="wbar" style="width:24px" title="한국전력 2.4%"></span></td></tr>
+<tr><td><details class="card"><summary>크래프톤</summary><div class="cardbody"><ul class="reasons"><li>PUBG IP 캐시카우 + 인도 시장 독점적 지위</li><li>신작 파이프라인 옵션</li><li>플랫폼 섹터 내 이익 안정성 보완</li></ul><b>반대논리</b> 신작 흥행 불확실성<br><b>무효화</b> PUBG 모바일 매출 역성장 2분기 연속<br><b>편입</b> 2026-08-13 · 2026-08-14 시가</div></details></td><td>259960</td><td>인터넷/플랫폼</td><td class="num">2.0%</td><td style="width:120px"><span class="wbar" style="width:20px" title="크래프톤 2.0%"></span></td></tr>
+<tr class="bondrow"><td><b>KOSEF 국고채10년</b></td><td>148070</td><td>국고채 ETF</td><td class="num">19.8%</td><td style="width:120px"><span class="wbar" style="width:99px"></span></td></tr>
+</table></div></section>
+<section><h2>배틀 현황</h2><div class="battle">
+<div class="tile"><div class="k">CLD</div><div class="v">—</div><div class="s">2026-08-14 시가 (평가일 익영업일) 대기</div></div>
+<div class="tile"><div class="k">TDY</div><div class="v">—</div><div class="s">/tdy-input 대기</div></div>
+<div class="tile"><div class="k">KOSPI</div><div class="v">—</div><div class="s">기준가 확정 대기</div></div>
+<div class="tile"><div class="k">복합BM</div><div class="v">—</div><div class="s">기준가 확정 대기</div></div>
+</div><div class="note">개시 2026-08-13 · 체결 2026-08-14 시가 (평가일 익영업일) · 왕복 비용 0.3% · TR 회계 동일 적용 — 기준가 확정 후 /score로 수익률 추적 개시</div></section>
+<footer>출처: PER — 한국투자증권 8월 전망(글로벌이코노믹 2026-08-04 보도) 밴드 선형보간 — KOSPI 5,500↔4.6배 / 7,500↔6.3배 매핑에 8/13 종가 6,813 대입 (asof 2026-08-13) · 국고10Y — Trading Economics / FX.co — 한은 7월 인상(2.75%) 직후 3년래 최고 수준 (asof 2026-07-15)<br>주간 평가·±2%p 밴드 리밸런싱 · Yield Gap ±0.5%p 변동 시 SAA 재산출<br>※ 본 대시보드는 CLD 모델 산출(페이퍼 트랙)이며 실계좌에 대한 추천이 아닙니다.</footer>
+</main>
