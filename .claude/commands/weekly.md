@@ -16,4 +16,6 @@ CLAUDE.md(SSOT)의 §2 파이프라인을 실행한다. 파라미터는 config/p
    결과를 `state/inputs/<날짜>/judgments.json`에 기록한다.
 3. **실행**: `python3 -m src.rebalance --date <날짜>` — 계산·검증·state/ledger/리포트 생성.
    가드레일 위반 시 포트폴리오 출력 없이 위반 보고(HARD 6), 판단을 수정해 재실행.
-4. **기록**: CHANGELOG.md에 실행 기록 1줄 추가. 리포트 요약을 사용자에게 보고.
+4. **대시보드**: `python3 -m src.dashboard`로 `reports/dashboard.html` 재생성 후
+   기존 아티팩트 URL에 재게시(주차별 label 부여).
+5. **기록**: CHANGELOG.md에 실행 기록 1줄 추가. 리포트 요약을 사용자에게 보고.

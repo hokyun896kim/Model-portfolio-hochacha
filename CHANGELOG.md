@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2026-08-13 — 대시보드 추가
+
+- `src/dashboard.py` 신설: state/·portfolios/ JSON → `reports/dashboard.html` 시각화
+  (파생 뷰 렌더링 전용, state·ledger 쓰기 없음 — §8 준수). /weekly 절차에 재생성 단계 추가.
+
 ## 2026-08-13 — 첫 /weekly 실행
 
 - 데이터 수집 검증 리포트 발행(`reports/setup-validation-2026-08-13.md`) — 클라우드 환경
